@@ -15,6 +15,7 @@
         <title><spring:message code="title.user.office.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />
@@ -114,17 +115,13 @@
                                     <form:input type="edit" path="age" value="${userForm.age}" class="form-control" id="input-age"/>
                                     <form:errors path="age" />
                                 </div>
-                                <button class="btn btn-primary" type="submit" style="width:100%"><spring:message code="button.save" /></button>
+                                <button class="btn btn-primary" style="width:100%"><spring:message code="button.save" /></button>
                             </form:form>
                         </div>
                     </div>
                 </td>
                 <td style="width:30px"></td>
                 <td>
-                    <div class="card">
-                        <div class="card-body">
-                        </div>
-                    </div>
                 </td>
             </tr>
         </table></center>

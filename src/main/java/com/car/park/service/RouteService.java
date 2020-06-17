@@ -12,6 +12,8 @@ public interface RouteService {
 
     Route getRouteById(Long routeId);
 
+    Route getRouteByNumber(String routeNumber);
+
     List<Route> getAllRoutes();
 
     void deleteRoute(Long routeId);

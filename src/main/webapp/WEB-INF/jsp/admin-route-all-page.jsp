@@ -13,6 +13,7 @@
         <title><spring:message code="title.admin.routes.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />
@@ -37,10 +38,9 @@
                         <td>${route.number}</td>
                         <td>${route.descriptionEn}</td>
                         <td>
-                            <form name="edit-route" action="${pageContext.request.contextPath}/route/details" method="get">
-                                <input name="routeId" type="hidden" value="${route.id}">
-                                <button class="btn btn-primary"><spring:message code="button.details" /></button>
-                            </form>
+                            <a href="${pageContext.request.contextPath}/route/details/${route.id}" class="btn btn-primary">
+                                <spring:message code="button.details" />
+                            </a>
                         </td>
                         <td>
                             <form name="delete-route" action="${pageContext.request.contextPath}/route/delete" method="post">
@@ -53,9 +53,9 @@
             </tbody>
         </table>
         <div class="mx-auto" style="width: 300px">
-            <form name="add-new-route" action="${pageContext.request.contextPath}/route/create" method="get">
-                <button class="btn btn-success" style="width: 300px"><spring:message code="button.route.create" /></button>
-            </form>
+            <a href="${pageContext.request.contextPath}/route/create" class="btn btn-success" style="width: 300px">
+                <spring:message code="button.route.create" />
+            </a>
         </div>
     </body>
 </html>

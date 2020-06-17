@@ -21,8 +21,6 @@ USE `car_park_service_db`;
 -- Table structure for table `assignments`
 --
 
-SET GLOBAL time_zone = '+2:00';
-
 DROP TABLE IF EXISTS `assignments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

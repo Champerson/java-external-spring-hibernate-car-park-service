@@ -13,6 +13,7 @@
         <title><spring:message code="title.admin.menu.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <center><h4><spring:message code="header.admin.menu.page" /></h4><br></center>
         <div class="mx-auto" style="width: 300px">
             <a href="${pageContext.request.contextPath}/user/users" class="btn btn-outline-primary" style="width:100%">

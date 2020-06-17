@@ -13,6 +13,7 @@
         <title><spring:message code="title.admin.users.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />
@@ -44,10 +45,9 @@
                         </td>
                         <td>${user.assignment.route.number}</td>
                         <td>
-                            <form name="user-details" action="${pageContext.request.contextPath}/user/details" method="get">
-                                <input name="userId" type="hidden" value="${user.id}">
-                                <button class="btn btn-primary"><spring:message code="button.details" /></button>
-                            </form>
+                            <a href="${pageContext.request.contextPath}/user/details/${user.id}" class="btn btn-primary">
+                                <spring:message code="button.details" />
+                            </a>
                         </td>
                         <td>
                             <form name="delete-user" action="${pageContext.request.contextPath}/user/delete" method="post">

@@ -1,4 +1,4 @@
-package com.car.park.service.simple;
+package com.car.park.service.impl;
 
 import com.car.park.entities.Assignment;
 import com.car.park.entities.User;
@@ -6,12 +6,14 @@ import com.car.park.entities.UserRole;
 import com.car.park.repository.AssignmentRepository;
 import com.car.park.repository.UserRepository;
 import com.car.park.service.UserService;
+import com.car.park.web.support.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.car.park.entities.UserRole.ROLE_DRIVER;
 import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toList;
 
@@ -20,11 +22,13 @@ public class DefaultUserService implements UserService {
 
     private UserRepository userRepository;
     private AssignmentRepository assignmentRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public void registerNewUser(User user) {
-        user.setAccessRole(UserRole.ROLE_DRIVER);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setAccessRole(ROLE_DRIVER);
         user.setCreationTime(now());
         userRepository.create(user);
     }
@@ -75,7 +79,7 @@ public class DefaultUserService implements UserService {
     @Transactional(readOnly = true)
     public List<User> getDriversAvailableForAssignment() {
         return userRepository.readAll().stream()
-                .filter(user -> UserRole.ROLE_DRIVER.equals(user.getAccessRole()) && user.getAssignment() == null)
+                .filter(user -> ROLE_DRIVER.equals(user.getAccessRole()) && user.getAssignment() == null)
                 .collect(toList());
     }
 
@@ -93,5 +97,10 @@ public class DefaultUserService implements UserService {
     @Autowired
     public void setAssignmentRepository(AssignmentRepository assignmentRepository) {
         this.assignmentRepository = assignmentRepository;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

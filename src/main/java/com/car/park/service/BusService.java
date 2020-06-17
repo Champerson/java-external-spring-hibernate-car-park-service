@@ -14,6 +14,8 @@ public interface BusService {
 
     Bus getBusById(Long busId);
 
+    Bus getBusByNumber(String busNumber);
+
     List<Bus> getAllBuses();
 
     List<Bus> getBusesAvailableForAssignment();

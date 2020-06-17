@@ -13,6 +13,7 @@
         <title><spring:message code="title.admin.buses.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />
@@ -43,10 +44,9 @@
                         <td>${bus.assignment.route.number}</td>
                         <td>${bus.assignment.driver.name}</td>
                         <td>
-                            <form name="edit-bus" action="${pageContext.request.contextPath}/bus/details" method="get">
-                                <input name="busId" type="hidden" value="${bus.id}">
-                                <button class="btn btn-primary"><spring:message code="button.details" /></button>
-                            </form>
+                            <a href="${pageContext.request.contextPath}/bus/details/${bus.id}" class="btn btn-primary">
+                                <spring:message code="button.details" />
+                            </a>
                         </td>
                         <td>
                             <form name="delete-bus" action="${pageContext.request.contextPath}/bus/delete" method="post">
@@ -59,9 +59,9 @@
             </tbody>
         </table>
         <div class="mx-auto" style="width: 300px">
-            <form name="add-new-bus" action="${pageContext.request.contextPath}/bus/create" method="get">
-                <button class="btn btn-success" style="width: 300px"><spring:message code="button.bus.create" /></button>
-            </form>
+            <a href="${pageContext.request.contextPath}/bus/create" class="btn btn-success" style="width: 300px">
+                <spring:message code="button.bus.create" />
+            </a>
         </div>
     </body>
 </html>

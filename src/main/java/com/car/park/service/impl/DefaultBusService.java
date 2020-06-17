@@ -1,4 +1,4 @@
-package com.car.park.service.simple;
+package com.car.park.service.impl;
 
 import com.car.park.entities.Bus;
 import com.car.park.repository.AssignmentRepository;
@@ -55,6 +55,11 @@ public class DefaultBusService implements BusService {
     @Transactional(readOnly = true)
     public Bus getBusById(Long busId) {
         return busRepository.read(busId);
+    }
+
+    @Override
+    public Bus getBusByNumber(String busNumber) {
+        return busRepository.read(busNumber);
     }
 
     @Override

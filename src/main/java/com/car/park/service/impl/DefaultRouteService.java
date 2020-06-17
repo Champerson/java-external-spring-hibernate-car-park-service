@@ -1,4 +1,4 @@
-package com.car.park.service.simple;
+package com.car.park.service.impl;
 
 import com.car.park.entities.Route;
 import com.car.park.repository.RouteRepository;
@@ -40,6 +40,11 @@ public class DefaultRouteService implements RouteService {
         Route route = routeRepository.read(routeId);
         route.getAssignments().iterator();
         return route;
+    }
+
+    @Override
+    public Route getRouteByNumber(String routeNumber) {
+        return routeRepository.read(routeNumber);
     }
 
     @Override

@@ -13,25 +13,26 @@
         <intercept-url pattern="/logout" access="isAuthenticated()" />
         <intercept-url pattern="/user/authorize" access="isAuthenticated()" />
 
+        <intercept-url pattern="/user/admin/office" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/users" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/delete" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/user/details" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/user/details/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/role/edit" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/user/drivers/available" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/user/drivers/available/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/assignment/admin/decline" access="hasRole('ROLE_ADMIN')" />
 
         <intercept-url pattern="/bus/edit" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/bus/buses" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/bus/delete" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/bus/create" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/bus/details" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/bus/buses/available" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/bus/details/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/bus/buses/available/**" access="hasRole('ROLE_ADMIN')" />
 
         <intercept-url pattern="/route/edit" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/route/create" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/route/delete" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/route/routes" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/route/details" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/route/details/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/route/assign/bus" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/route/assign/user" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/route/assignment/decline" access="hasRole('ROLE_ADMIN')" />
@@ -47,7 +48,7 @@
         <form-login login-page="/login"
                     username-parameter="username"
                     password-parameter="password"
-                    authentication-failure-url="/login?error=true"
+                    authentication-failure-url="/login?credentialsError=true"
                     default-target-url="/user/authorize"/>
 
         <csrf disabled="true"/>

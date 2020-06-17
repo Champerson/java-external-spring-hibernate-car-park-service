@@ -1,7 +1,6 @@
-package com.car.park.service.simple;
+package com.car.park.service.impl;
 
 import com.car.park.entities.Assignment;
-import com.car.park.entities.Route;
 import com.car.park.entities.User;
 import com.car.park.repository.AssignmentRepository;
 import com.car.park.repository.BusRepository;

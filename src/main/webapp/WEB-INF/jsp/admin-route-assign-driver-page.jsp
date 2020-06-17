@@ -13,6 +13,7 @@
         <title><spring:message code="title.admin.routes.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <center><h4><spring:message code="header.admin.route.assign.driver" /></h4></center></br>
         <table class="table table-striped">
             <thead>

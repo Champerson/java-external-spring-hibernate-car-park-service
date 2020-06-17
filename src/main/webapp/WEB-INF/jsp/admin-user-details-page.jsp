@@ -14,6 +14,7 @@
         <title><spring:message code="title.admin.users.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />

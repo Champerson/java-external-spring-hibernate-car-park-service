@@ -15,6 +15,7 @@
         <title><spring:message code="title.admin.buses.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <center><h4><spring:message code="header.admin.bus" /></h4></center></br>
         <jsp:include page="components/bus-form.jsp" >
             <jsp:param name="link" value="${pageContext.request.contextPath}/bus/create" />

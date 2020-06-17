@@ -18,9 +18,9 @@
     </listener>
 
     <welcome-file-list>
-        <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
-        <welcome-file>/WEB-INF/jsp/index.html</welcome-file>
-        <welcome-file>/WEB-INF/jsp/index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
         <welcome-file>/</welcome-file>
     </welcome-file-list>
 

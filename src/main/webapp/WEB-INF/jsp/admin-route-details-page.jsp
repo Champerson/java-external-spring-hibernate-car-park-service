@@ -16,6 +16,7 @@
         <title><spring:message code="title.admin.routes.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />
@@ -66,10 +67,9 @@
                                         <td style="vertical-align: middle">
                                             <c:choose>
                                                 <c:when test="${empty assignment.driver}">
-                                                    <form name="route-assign-driver" action="${pageContext.request.contextPath}/user/drivers/available" method="get">
-                                                        <input type="hidden" name="assignmentId" value="${assignment.id}">
-                                                        <button class="btn btn-success"><spring:message code="button.route.assign.driver" /></button>
-                                                    </form>
+                                                    <a href="${pageContext.request.contextPath}/user/drivers/available/${assignment.id}" class="btn btn-success">
+                                                        <spring:message code="button.route.assign.driver" />
+                                                    </a>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <table>
@@ -108,10 +108,9 @@
                         </table>
                     </c:if>
                     <div class="mx-auto" style="width: 300px">
-                        <form name="add-bus" action="${pageContext.request.contextPath}/bus/buses/available" method="get">
-                            <input name="routeId" type="hidden" value="${route.id}">
-                            <button class="btn btn-success" style="width: 300px"><spring:message code="button.route.add.bus" /></button>
-                        </form>
+                        <a href="${pageContext.request.contextPath}/bus/buses/available/${route.id}" class="btn btn-success" style="width: 300px">
+                            <spring:message code="button.route.add.bus" />
+                        </a>
                     </div>
                 </td>
             </tr>

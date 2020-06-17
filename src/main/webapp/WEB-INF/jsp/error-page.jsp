@@ -13,6 +13,7 @@
         <title><spring:message code="title.error.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <div class="card mx-auto" style="width: 18rem">
             <div class="card-header text-white bg-danger mb-3">
                 <spring:message code="header.error.page" />

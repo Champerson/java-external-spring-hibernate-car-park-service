@@ -15,6 +15,7 @@
         <title><spring:message code="title.admin.routes.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <center><h4><spring:message code="header.admin.route" /></h4></center></br>
         <jsp:include page="components/route-form.jsp" >
             <jsp:param name="link" value="${pageContext.request.contextPath}/route/create" />

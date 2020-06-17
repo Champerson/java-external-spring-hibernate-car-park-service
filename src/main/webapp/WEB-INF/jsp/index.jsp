@@ -13,9 +13,15 @@
         <title><spring:message code="title.index.page" /></title>
     </head>
     <body>
+        <jsp:include page="components/navigation-top-form.jsp"/>
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success" role="alert">
                 <spring:message code="${successMessage}" />
+            </div>
+        </c:if>
+        <c:if test="${not empty param.credentialsError}">
+            <div class="alert alert-danger" role="alert">
+                <spring:message code="error.credentials.invalid"/>
             </div>
         </c:if>
 
@@ -34,7 +40,7 @@
                     </div>
                     <input type="password" class="form-control" id="inputPassword" aria-describedby="inputPasswordLabel" name="password">
                 </div>
-                <button type="submit" style="width:100%" class="btn btn-primary"><spring:message code="button.authorization" /></button>
+                <button style="width:100%" class="btn btn-primary"><spring:message code="button.authorization" /></button>
             </form>
             <br>
             <a href="${pageContext.request.contextPath}/user/registration" class="btn btn-outline-primary" style="width:100%">

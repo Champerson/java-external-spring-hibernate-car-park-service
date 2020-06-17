@@ -33,7 +33,7 @@ public class JpaBusRepository implements BusRepository {
     public Bus read(String number) {
         return entityManager.createNamedQuery("Bus.readByNumber", Bus.class)
                 .setParameter("number", number)
-                .getSingleResult();
+                .getResultList().stream().findFirst().orElse(null);
     }
 
     @Override
