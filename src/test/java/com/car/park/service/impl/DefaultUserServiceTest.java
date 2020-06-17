@@ -24,9 +24,9 @@ import static org.mockito.Mockito.*;
 public class DefaultUserServiceTest {
 
 
+    private static final int AGE = 10;
     private static final long USER_ID = 2;
     private static final long ASSIGNMENT_ID = 2;
-    private static final Integer AGE = 10;
     private static final String NAME = "name";
     private static final String LOGIN = "login";
     private static final String EMAIL = "email";
@@ -131,43 +131,43 @@ public class DefaultUserServiceTest {
 
     @Test
     public void shouldReturnListOfAvailableForAssignmentDriversByAssignment() {
-        List<User> availableDrivers = new ArrayList<>();
+        List<User> allDrivers = new ArrayList<>();
         User driverWithAssignment = mock(User.class);
         User driverWithoutAssignment = mock(User.class);
         Assignment assignment = mock(Assignment.class);
 
-        availableDrivers.add(driverWithAssignment);
-        availableDrivers.add(driverWithoutAssignment);
+        allDrivers.add(driverWithAssignment);
+        allDrivers.add(driverWithoutAssignment);
 
-        when(userRepository.readAll()).thenReturn(availableDrivers);
+        when(userRepository.readAll()).thenReturn(allDrivers);
         when(driverWithAssignment.getAccessRole()).thenReturn(ROLE_DRIVER);
         when(driverWithoutAssignment.getAccessRole()).thenReturn(ROLE_DRIVER);
         when(driverWithAssignment.getAssignment()).thenReturn(assignment);
         when(driverWithoutAssignment.getAssignment()).thenReturn(null);
 
-        List<User> resultAvailableDrivers = defaultUserService.getDriversAvailableForAssignment();
+        List<User> availableDrivers = defaultUserService.getDriversAvailableForAssignment();
 
-        assertEquals(driverWithoutAssignment, resultAvailableDrivers.get(0));
+        assertEquals(driverWithoutAssignment, availableDrivers.get(0));
     }
 
     @Test
     public void shouldReturnListOfAvailableForAssignmentDriversByRole() {
-        List<User> availableDrivers = new ArrayList<>();
+        List<User> allDrivers = new ArrayList<>();
         User driver = mock(User.class);
         User admin = mock(User.class);
 
-        availableDrivers.add(driver);
-        availableDrivers.add(admin);
+        allDrivers.add(driver);
+        allDrivers.add(admin);
 
-        when(userRepository.readAll()).thenReturn(availableDrivers);
+        when(userRepository.readAll()).thenReturn(allDrivers);
         when(admin.getAccessRole()).thenReturn(ROLE_ADMIN);
         when(driver.getAccessRole()).thenReturn(ROLE_DRIVER);
         when(admin.getAssignment()).thenReturn(null);
         when(driver.getAssignment()).thenReturn(null);
 
-        List<User> resultAvailableDrivers = defaultUserService.getDriversAvailableForAssignment();
+        List<User> availableDrivers = defaultUserService.getDriversAvailableForAssignment();
 
-        assertEquals(driver, resultAvailableDrivers.get(0));
+        assertEquals(driver, availableDrivers.get(0));
     }
 
     @Test

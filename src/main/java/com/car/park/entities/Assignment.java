@@ -3,6 +3,7 @@ package com.car.park.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "assignments")
@@ -94,5 +95,23 @@ public class Assignment {
 
     public void setDriver(User driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Assignment that = (Assignment) o;
+        return acceptedByDriver.equals(that.acceptedByDriver) &&
+                creationTime.equals(that.creationTime) &&
+                startDate.equals(that.startDate) &&
+                Objects.equals(bus, that.bus) &&
+                Objects.equals(route, that.route) &&
+                Objects.equals(driver, that.driver);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(acceptedByDriver, creationTime, startDate, bus, route, driver);
     }
 }
