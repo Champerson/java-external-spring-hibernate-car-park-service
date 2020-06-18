@@ -1,6 +1,7 @@
 package com.car.park.web.controllers;
 
 import com.car.park.entities.Bus;
+import com.car.park.entities.dtos.BusDto;
 import com.car.park.service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +23,14 @@ public class BusController {
     @GetMapping(value = "/create")
     public String create(Model model) {
         if (!model.containsAttribute("busForm")) {
-            model.addAttribute("busForm", new Bus());
+            model.addAttribute("busForm", new BusDto());
         }
         return "admin-bus-create-page";
     }
 
     @PostMapping(value = "/create")
     public String create(
-            @Valid Bus busForm,
+            @Valid BusDto busForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {
@@ -53,7 +54,7 @@ public class BusController {
 
     @PostMapping(value = "/edit")
     public String edit(
-            @Valid Bus busForm,
+            @Valid BusDto busForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {

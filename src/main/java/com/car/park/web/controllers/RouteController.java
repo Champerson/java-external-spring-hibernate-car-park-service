@@ -2,6 +2,7 @@ package com.car.park.web.controllers;
 
 import com.car.park.entities.Assignment;
 import com.car.park.entities.Route;
+import com.car.park.entities.dtos.RouteDto;
 import com.car.park.service.AssignmentService;
 import com.car.park.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,14 @@ public class RouteController {
     @GetMapping(value = "/create")
     public String create(Model model) {
         if (!model.containsAttribute("routeForm")) {
-            model.addAttribute("routeForm", new Route());
+            model.addAttribute("routeForm", new RouteDto());
         }
         return "admin-route-create-page";
     }
 
     @PostMapping(value = "/create")
     public String create(
-            @Valid Route routeForm,
+            @Valid RouteDto routeForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {
@@ -57,7 +58,7 @@ public class RouteController {
 
     @PostMapping(value = "/edit")
     public String edit(
-            @Valid Route routeForm,
+            @Valid RouteDto routeForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {

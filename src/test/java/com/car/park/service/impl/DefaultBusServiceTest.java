@@ -2,6 +2,7 @@ package com.car.park.service.impl;
 
 import com.car.park.entities.Assignment;
 import com.car.park.entities.Bus;
+import com.car.park.entities.dtos.BusDto;
 import com.car.park.repository.AssignmentRepository;
 import com.car.park.repository.BusRepository;
 import org.junit.Test;
@@ -39,10 +40,12 @@ public class DefaultBusServiceTest {
 
     @Mock
     Bus bus;
+    @Mock
+    BusDto busDto;
 
     @Test
     public void shouldCreateNewBus() {
-        defaultBusService.createNewBus(bus);
+        defaultBusService.createNewBus(busDto);
 
         verify(bus).setCreationTime(any());
         verify(busRepository).create(bus);
@@ -62,7 +65,7 @@ public class DefaultBusServiceTest {
         when(bus.getNotesEn()).thenReturn(NOTES_EN);
         when(bus.getNotesUa()).thenReturn(NOTES_UA);
 
-        defaultBusService.updateBus(bus);
+        defaultBusService.updateBus(busDto);
 
         verify(originalBus).setMileage(MILEAGE);
         verify(originalBus).setModel(MODEL);

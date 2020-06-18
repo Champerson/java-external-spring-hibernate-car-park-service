@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="carpark" tagdir="/WEB-INF/tags" %>
 
 <!doctype html>
 <html lang="en">
@@ -83,6 +84,7 @@
                 <td>
                     <div class="card">
                         <div class="card-body">
+                            <spring:hasBindErrors name="userForm"><c:set var="validatedUserForm" value="true"/></spring:hasBindErrors>
                             <form:form class="mx-auto" style="width: 300px" name="edit-user" action="${pageContext.request.contextPath}/user/edit" method="post" modelAttribute="userForm">
                                 <form:input path="id" type="hidden" value="${userForm.id}"/>
                                 <div class="form-group">
@@ -95,26 +97,10 @@
                                     <fmt:formatDate value="${userCreationTime}" type="both" dateStyle="short" timeStyle="short" var="parsedCreationTime"/>
                                     <input id="input-creationTime" class="form-control" type="text" disabled="true" value="${parsedCreationTime}"/>
                                 </div>
-                                <div class="form-group">
-                                    <label for="input-name"><spring:message code="label.user.name" /></label>
-                                    <form:input type="edit" path="name" value="${userForm.name}" class="form-control" id="input-name"/>
-                                    <form:errors path="name" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="input-email"><spring:message code="label.user.email" /><font color="red"> *</font></label>
-                                    <form:input type="edit" path="email" value="${userForm.email}" class="form-control" id="input-email"/>
-                                    <form:errors path="email" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="input-phone"><spring:message code="label.user.phone" /><font color="red"> *</font></label>
-                                    <form:input type="edit" path="phone" value="${userForm.phone}" class="form-control" id="input-phone"/>
-                                    <form:errors path="phone" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="input-age"><spring:message code="label.user.age" /><font color="red"> *</font></label>
-                                    <form:input type="edit" path="age" value="${userForm.age}" class="form-control" id="input-age"/>
-                                    <form:errors path="age" />
-                                </div>
+                                <carpark:input name="name" value="${userForm.name}" validated="${validatedUserForm}" message="label.user.name"/>
+                                <carpark:input name="email" value="${userForm.email}" validated="${validatedUserForm}" mandatory="true" message="label.user.email"/>
+                                <carpark:input name="phone" value="${userForm.phone}" validated="${validatedUserForm}" mandatory="true" message="label.user.phone"/>
+                                <carpark:input name="age" value="${userForm.age}" validated="${validatedUserForm}" mandatory="true" message="label.user.age"/>
                                 <button class="btn btn-primary" style="width:100%"><spring:message code="button.save" /></button>
                             </form:form>
                         </div>
@@ -122,6 +108,17 @@
                 </td>
                 <td style="width:30px"></td>
                 <td>
+                    <div class="card">
+                        <div class="card-body">
+                            <spring:hasBindErrors name="userPasswordForm"><c:set var="validatedPasswordForm" value="true"/></spring:hasBindErrors>
+                            <form:form name="edit-user-password" action="${pageContext.request.contextPath}/user/password/edit" method="post" modelAttribute="userPasswordForm">
+                                <form:input path="id" type="hidden" value="${user.id}"/>
+                                <carpark:input name="password" value="${userPasswordForm.password}" validated="${validatedPasswordForm}" message="label.user.password.old" mandatory="true" generalError="true"/>
+                                <carpark:input name="newPassword" value="${userPasswordForm.newPassword}" validated="${validatedPasswordForm}" message="label.user.password.new" mandatory="true"/>
+                                <button class="btn btn-primary" style="width:100%"><spring:message code="button.save" /></button>
+                            </form:form>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table></center>

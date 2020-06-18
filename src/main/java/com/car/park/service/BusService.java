@@ -1,14 +1,15 @@
 package com.car.park.service;
 
 import com.car.park.entities.Bus;
+import com.car.park.entities.dtos.BusDto;
 
 import java.util.List;
 
 public interface BusService {
 
-    void createNewBus(Bus bus);
+    void createNewBus(BusDto busDto);
 
-    void updateBus(Bus bus);
+    void updateBus(BusDto busDto);
 
     void deleteBus(Long busId);
 

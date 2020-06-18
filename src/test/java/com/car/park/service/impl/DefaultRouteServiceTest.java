@@ -2,6 +2,7 @@ package com.car.park.service.impl;
 
 import com.car.park.entities.Assignment;
 import com.car.park.entities.Route;
+import com.car.park.entities.dtos.RouteDto;
 import com.car.park.repository.RouteRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,10 +33,12 @@ public class DefaultRouteServiceTest {
 
     @Mock
     private Route route;
+    @Mock
+    private RouteDto routeDto;
 
     @Test
     public void shouldCreateNewRoute() {
-        defaultRouteService.createNewRoute(route);
+        defaultRouteService.createNewRoute(routeDto);
 
         verify(route).setCreationTime(any());
         verify(routeRepository).create(route);
@@ -51,7 +54,7 @@ public class DefaultRouteServiceTest {
         when(route.getDescriptionEn()).thenReturn(DESCRIPTION_EN);
         when(route.getDescriptionUa()).thenReturn(DESCRIPTION_UA);
 
-        defaultRouteService.updateRoute(route);
+        defaultRouteService.updateRoute(routeDto);
 
         verify(originalRoute).setNumber(NUMBER);
         verify(originalRoute).setLength(LENGTH);

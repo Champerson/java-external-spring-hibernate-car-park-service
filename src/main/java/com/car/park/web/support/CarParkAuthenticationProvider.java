@@ -12,8 +12,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.car.park.entities.User.USER_LOGIN_REGEX;
-import static com.car.park.entities.User.USER_PASSWORD_REGEX;
+import static com.car.park.entities.dtos.UserDto.USER_LOGIN_REGEX;
+import static com.car.park.entities.dtos.UserDto.USER_PASSWORD_REGEX;
 import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.springframework.util.StringUtils.isEmpty;

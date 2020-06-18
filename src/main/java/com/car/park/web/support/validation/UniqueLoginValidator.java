@@ -1,5 +1,6 @@
 package com.car.park.web.support.validation;
 
+import com.car.park.entities.dtos.UserDto;
 import com.car.park.service.UserService;
 import com.car.park.web.support.validation.annotations.UniqueLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-import static com.car.park.entities.User.USER_LOGIN_REGEX;
+import static com.car.park.entities.dtos.UserDto.USER_LOGIN_REGEX;
 import static java.util.regex.Pattern.compile;
 import static org.springframework.util.StringUtils.isEmpty;
 
-public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, String> {
+public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, UserDto> {
 
     private UserService userService;
 
@@ -27,9 +28,9 @@ public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, St
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        if (checkValidByRegex(value)) {
-            return userService.getUserByLogin(value) == null;
+    public boolean isValid(UserDto dto, ConstraintValidatorContext constraintValidatorContext) {
+        if (checkValidByRegex(dto.getLogin())) {
+            return userService.getUserByLogin(dto.getLogin()) == null;
         } else {
             return true;
         }

@@ -2,6 +2,7 @@ package com.car.park.web.controllers;
 
 import com.car.park.entities.User;
 import com.car.park.entities.UserRole;
+import com.car.park.entities.dtos.UserDto;
 import com.car.park.service.AssignmentService;
 import com.car.park.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ import static com.car.park.entities.UserRole.ROLE_DRIVER;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    private static final String VALIDATION_RESULT_ATTRIBUTE = "org.springframework.validation.BindingResult.userForm";
+    private static final String USER_VALIDATION_RESULT_ATTRIBUTE = "org.springframework.validation.BindingResult.userForm";
+    private static final String USER_PASSWORD_VALIDATION_RESULT_ATTRIBUTE = "org.springframework.validation.BindingResult.userPasswordForm";
 
     private UserService userService;
     private AssignmentService assignmentService;
@@ -42,20 +44,20 @@ public class UserController {
     @GetMapping(value = "/registration")
     public String registration(Model model) {
         if (!model.containsAttribute("userForm")) {
-            model.addAttribute("userForm", new User());
+            model.addAttribute("userForm", new UserDto());
         }
         return "registration-page";
     }
 
     @PostMapping(value = "/create")
     public RedirectView create(
-            @Validated({User.ValidationBasic.class, User.ValidationAdditional.class}) User userForm,
+            @Validated({UserDto.ValidationCreate.class, UserDto.ValidationUpdate.class}) UserDto userForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("userForm", userForm);
-            redirectAttributes.addFlashAttribute(VALIDATION_RESULT_ATTRIBUTE, result);
+            redirectAttributes.addFlashAttribute(USER_VALIDATION_RESULT_ATTRIBUTE, result);
             return redirectWithUrl("/user/registration");
         } else {
             userService.registerNewUser(userForm);
@@ -73,18 +75,34 @@ public class UserController {
 
     @PostMapping(value = "/edit")
     public String edit(
-            @Validated(User.ValidationAdditional.class) User userForm,
+            @Validated(UserDto.ValidationUpdate.class) UserDto userForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("userForm", userForm);
-            redirectAttributes.addFlashAttribute(VALIDATION_RESULT_ATTRIBUTE, result);
+            redirectAttributes.addFlashAttribute(USER_VALIDATION_RESULT_ATTRIBUTE, result);
         } else {
             userService.updateUser(userForm);
             redirectAttributes.addFlashAttribute("successMessage", "success.user.updated");
         }
         return "redirect:office";
+    }
+
+    @PostMapping(value = "/password/edit")
+    public RedirectView editPassword(
+            @Validated(UserDto.ValidationPasswordUpdate.class) UserDto userPasswordForm,
+            BindingResult result,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userPasswordForm", userPasswordForm);
+            redirectAttributes.addFlashAttribute(USER_PASSWORD_VALIDATION_RESULT_ATTRIBUTE, result);
+        } else {
+            userService.updateUserPassword(userPasswordForm);
+            redirectAttributes.addFlashAttribute("successMessage", "success.user.password.changed");
+        }
+        return redirectWithUrl("/user/office");
     }
 
     @PostMapping(value = "/role/edit")
@@ -123,6 +141,9 @@ public class UserController {
         model.addAttribute("user", user);
         if (!model.containsAttribute("userForm")) {
             model.addAttribute("userForm", user);
+        }
+        if (!model.containsAttribute("userPasswordForm")) {
+            model.addAttribute("userPasswordForm", new UserDto());
         }
         return "user-office-page";
     }

@@ -1,5 +1,7 @@
 package com.car.park.web.support.validation;
 
+import com.car.park.entities.Bus;
+import com.car.park.entities.dtos.BusDto;
 import com.car.park.service.BusService;
 import com.car.park.web.support.validation.annotations.UniqueBusNumber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-import static com.car.park.entities.Bus.BUS_NUMBER_REGEX;
+import static com.car.park.entities.dtos.BusDto.BUS_NUMBER_REGEX;
 import static java.util.regex.Pattern.compile;
 import static org.springframework.util.StringUtils.isEmpty;
 
-public class UniqueBusNumberValidator implements ConstraintValidator<UniqueBusNumber, String> {
+public class UniqueBusNumberValidator implements ConstraintValidator<UniqueBusNumber, BusDto> {
 
     private BusService busService;
 
@@ -27,9 +29,10 @@ public class UniqueBusNumberValidator implements ConstraintValidator<UniqueBusNu
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        if (checkValidByRegex(value)) {
-            return busService.getBusByNumber(value) == null;
+    public boolean isValid(BusDto dto, ConstraintValidatorContext constraintValidatorContext) {
+        if (checkValidByRegex(dto.getNumber())) {
+            Bus bus = busService.getBusByNumber(dto.getNumber());
+            return bus == null || bus.getId().equals(dto.getId());
         } else {
             return true;
         }

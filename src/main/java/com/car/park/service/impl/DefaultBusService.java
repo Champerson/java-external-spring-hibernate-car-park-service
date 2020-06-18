@@ -1,6 +1,7 @@
 package com.car.park.service.impl;
 
 import com.car.park.entities.Bus;
+import com.car.park.entities.dtos.BusDto;
 import com.car.park.repository.AssignmentRepository;
 import com.car.park.repository.BusRepository;
 import com.car.park.service.BusService;
@@ -10,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
 import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
 public class DefaultBusService implements BusService {
@@ -21,24 +24,29 @@ public class DefaultBusService implements BusService {
 
     @Override
     @Transactional
-    public void createNewBus(Bus bus) {
+    public void createNewBus(BusDto busDto) {
+        Bus bus = mapDtoToEntity(busDto, new Bus());
         bus.setCreationTime(now());
         busRepository.create(bus);
     }
 
     @Override
     @Transactional
-    public void updateBus(Bus modifiedBus) {
-        Bus originalBus = busRepository.read(modifiedBus.getId());
-        originalBus.setMileage(modifiedBus.getMileage());
-        originalBus.setModel(modifiedBus.getModel());
-        originalBus.setNumber(modifiedBus.getNumber());
-        originalBus.setPassengersCapacity(modifiedBus.getPassengersCapacity());
-        originalBus.setColourEn(modifiedBus.getColourEn());
-        originalBus.setColourUa(modifiedBus.getColourUa());
-        originalBus.setNotesEn(modifiedBus.getNotesEn());
-        originalBus.setNotesUa(modifiedBus.getNotesUa());
+    public void updateBus(BusDto busDto) {
+        Bus originalBus = mapDtoToEntity(busDto, busRepository.read(busDto.getId()));
         busRepository.update(originalBus);
+    }
+
+    private Bus mapDtoToEntity(BusDto busDto, Bus bus) {
+        bus.setNumber(busDto.getNumber());
+        bus.setModel(busDto.getModel());
+        bus.setMileage(isEmpty(busDto.getMileage()) ? null : parseInt(busDto.getMileage()));
+        bus.setPassengersCapacity(isEmpty(busDto.getPassengersCapacity()) ? null : parseInt(busDto.getPassengersCapacity()));
+        bus.setColourEn(busDto.getColourEn());
+        bus.setColourUa(busDto.getColourUa());
+        bus.setNotesEn(busDto.getNotesEn());
+        bus.setNotesUa(busDto.getNotesUa());
+        return bus;
     }
 
     @Override

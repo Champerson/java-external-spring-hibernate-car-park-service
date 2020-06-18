@@ -1,5 +1,7 @@
 package com.car.park.web.support.validation;
 
+import com.car.park.entities.Route;
+import com.car.park.entities.dtos.RouteDto;
 import com.car.park.service.RouteService;
 import com.car.park.web.support.validation.annotations.UniqueRouteNumber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-import static com.car.park.entities.Route.ROUTE_NUMBER_REGEX;
+import static com.car.park.entities.dtos.RouteDto.ROUTE_NUMBER_REGEX;
 import static java.util.regex.Pattern.compile;
 import static org.springframework.util.StringUtils.isEmpty;
 
-public class UniqueRouteNumberValidator implements ConstraintValidator<UniqueRouteNumber, String> {
+public class UniqueRouteNumberValidator implements ConstraintValidator<UniqueRouteNumber, RouteDto> {
 
     private RouteService routeService;
 
@@ -27,9 +29,10 @@ public class UniqueRouteNumberValidator implements ConstraintValidator<UniqueRou
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        if (checkValidByRegex(value)) {
-            return routeService.getRouteByNumber(value) == null;
+    public boolean isValid(RouteDto dto, ConstraintValidatorContext constraintValidatorContext) {
+        if (checkValidByRegex(dto.getNumber())) {
+            Route route = routeService.getRouteByNumber(dto.getNumber());
+            return route == null || route.getId().equals(dto.getId());
         } else {
             return true;
         }

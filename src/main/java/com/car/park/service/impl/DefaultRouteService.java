@@ -1,6 +1,7 @@
 package com.car.park.service.impl;
 
 import com.car.park.entities.Route;
+import com.car.park.entities.dtos.RouteDto;
 import com.car.park.repository.RouteRepository;
 import com.car.park.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
 import static java.time.LocalDateTime.now;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
 public class DefaultRouteService implements RouteService {
@@ -18,20 +21,25 @@ public class DefaultRouteService implements RouteService {
 
     @Override
     @Transactional
-    public void createNewRoute(Route route) {
+    public void createNewRoute(RouteDto routeDto) {
+        Route route = mapDtoToEntity(routeDto, new Route());
         route.setCreationTime(now());
         routeRepository.create(route);
     }
 
     @Override
     @Transactional
-    public void updateRoute(Route modifiedRoute) {
-        Route originalRoute = routeRepository.read(modifiedRoute.getId());
-        originalRoute.setNumber(modifiedRoute.getNumber());
-        originalRoute.setLength(modifiedRoute.getLength());
-        originalRoute.setDescriptionEn(modifiedRoute.getDescriptionEn());
-        originalRoute.setDescriptionUa(modifiedRoute.getDescriptionUa());
+    public void updateRoute(RouteDto routeDto) {
+        Route originalRoute = mapDtoToEntity(routeDto, routeRepository.read(routeDto.getId()));
         routeRepository.update(originalRoute);
+    }
+
+    private Route mapDtoToEntity(RouteDto routeDto, Route route) {
+        route.setNumber(routeDto.getNumber());
+        route.setLength(isEmpty(routeDto.getLength()) ? null : parseInt(routeDto.getLength()));
+        route.setDescriptionEn(routeDto.getDescriptionEn());
+        route.setDescriptionUa(routeDto.getDescriptionUa());
+        return route;
     }
 
     @Override

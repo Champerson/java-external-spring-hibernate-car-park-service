@@ -1,14 +1,6 @@
 package com.car.park.entities;
 
-import com.car.park.web.support.validation.annotations.UniqueLogin;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,43 +11,27 @@ import java.time.LocalDateTime;
 })
 public class User {
 
-    public static final String USER_LOGIN_REGEX = "^[a-zA-Z0-9]{1,20}$";
-    public static final String USER_PASSWORD_REGEX = "^[a-zA-Z0-9]{1,20}$";
-
     @Id
     @Column(name = "user_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_login", unique = true, nullable = false)
-    @NotBlank(message = "{validation.user.login.empty}", groups = {ValidationBasic.class})
-    @Pattern(message = "{validation.user.login.invalid}", regexp = USER_LOGIN_REGEX, groups = {ValidationBasic.class})
-    @UniqueLogin(message = "{validation.user.login.exist}", groups = {ValidationBasic.class})
     private String login;
 
     @Column(name = "user_password")
-    @NotBlank(message = "{validation.user.password.empty}", groups = {ValidationBasic.class})
-    @Pattern(message = "{validation.user.password.invalid}", regexp = USER_PASSWORD_REGEX, groups = {ValidationBasic.class})
     private String password;
 
     @Column(name = "user_email")
-    @NotBlank(message = "{validation.user.email.empty}", groups = {ValidationAdditional.class})
-    @Email(message = "{validation.user.email.invalid}", groups = {ValidationAdditional.class})
     private String email;
 
     @Column(name = "user_phone")
-    @NotBlank(message = "{validation.user.phone.empty}", groups = {ValidationAdditional.class})
-    @Pattern(message = "{validation.user.phone.invalid}", regexp = "\\d{10}", groups = {ValidationAdditional.class})
     private String phone;
 
     @Column(name = "user_name")
-    @Pattern(message = "{validation.user.name.invalid}", regexp = "(^$|^[a-zA-Z\\s]{1,20}$)", groups = {ValidationAdditional.class})
     private String name;
 
     @Column(name = "user_age")
-    @NotNull(message = "{validation.user.age.empty}", groups = {ValidationAdditional.class})
-    @Min(message = "{validation.user.age.invalid}", value = 1, groups = {ValidationAdditional.class})
-    @Max(message = "{validation.user.age.invalid}", value = 99, groups = {ValidationAdditional.class})
     private Integer age;
 
     @Column(name = "user_creation_time")
@@ -146,11 +122,5 @@ public class User {
 
     public void setAssignment(Assignment assignment) {
         this.assignment = assignment;
-    }
-
-    public interface ValidationBasic {
-    }
-
-    public interface ValidationAdditional {
     }
 }

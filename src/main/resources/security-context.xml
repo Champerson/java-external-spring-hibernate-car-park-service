@@ -39,6 +39,7 @@
         <intercept-url pattern="/route/assignment/delete" access="hasRole('ROLE_ADMIN')" />
 
         <intercept-url pattern="/user/edit" access="hasRole('ROLE_DRIVER')" />
+        <intercept-url pattern="/user/password/edit" access="hasRole('ROLE_DRIVER')" />
         <intercept-url pattern="/user/office" access="hasRole('ROLE_DRIVER')" />
         <intercept-url pattern="/user/assignment/accept" access="hasRole('ROLE_DRIVER')" />
         <intercept-url pattern="/user/assignment/decline" access="hasRole('ROLE_DRIVER')" />

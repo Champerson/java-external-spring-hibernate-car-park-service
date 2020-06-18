@@ -2,6 +2,7 @@ package com.car.park.service.impl;
 
 import com.car.park.entities.Assignment;
 import com.car.park.entities.User;
+import com.car.park.entities.dtos.UserDto;
 import com.car.park.repository.AssignmentRepository;
 import com.car.park.repository.UserRepository;
 import com.car.park.web.support.PasswordEncoder;
@@ -46,6 +47,8 @@ public class DefaultUserServiceTest {
     @Mock
     private User user;
     @Mock
+    private UserDto userDto;
+    @Mock
     private List<User> users;
 
     @Test
@@ -53,7 +56,7 @@ public class DefaultUserServiceTest {
         when(user.getPassword()).thenReturn(USER_PASSWORD);
         when(passwordEncoder.encode(USER_PASSWORD)).thenReturn(USER_PASSWORD_ENCODED);
 
-        defaultUserService.registerNewUser(user);
+        defaultUserService.registerNewUser(userDto);
 
         verify(user).setPassword(USER_PASSWORD_ENCODED);
         verify(user).setAccessRole(ROLE_DRIVER);
@@ -90,7 +93,7 @@ public class DefaultUserServiceTest {
         when(user.getName()).thenReturn(NAME);
         when(user.getPhone()).thenReturn(PHONE);
 
-        defaultUserService.updateUser(user);
+        defaultUserService.updateUser(userDto);
 
         verify(originalUser).setAge(AGE);
         verify(originalUser).setEmail(EMAIL);

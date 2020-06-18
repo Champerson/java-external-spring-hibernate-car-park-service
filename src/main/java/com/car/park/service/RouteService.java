@@ -1,14 +1,15 @@
 package com.car.park.service;
 
 import com.car.park.entities.Route;
+import com.car.park.entities.dtos.RouteDto;
 
 import java.util.List;
 
 public interface RouteService {
 
-    void createNewRoute(Route route);
+    void createNewRoute(RouteDto routeDto);
 
-    void updateRoute(Route route);
+    void updateRoute(RouteDto routeDto);
 
     Route getRouteById(Long routeId);
 
