@@ -13,6 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static java.time.LocalDateTime.now;
 
+/**
+ * Default implementation of AssignmentService, interacts assignment layer,
+ * work with user, bus and route repositories.
+ * @see BusRepository
+ * @see UserRepository
+ * @see RouteRepository
+ * @see AssignmentService
+ * @see AssignmentRepository
+ */
 @Service
 public class DefaultAssignmentService implements AssignmentService {
 

@@ -14,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -33,88 +31,88 @@ public class DefaultAssignmentServiceTest {
     @InjectMocks
     DefaultAssignmentService defaultAssignmentService;
     @Mock
-    private BusRepository busRepository;
+    private BusRepository busRepositoryMock;
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepositoryMock;
     @Mock
-    private RouteRepository routeRepository;
+    private RouteRepository routeRepositoryMock;
     @Mock
-    private AssignmentRepository assignmentRepository;
+    private AssignmentRepository assignmentRepositoryMock;
 
     @Mock
-    private Assignment assignment;
+    private Assignment assignmentMock;
     @Mock
-    private Bus bus;
+    private Bus busMock;
     @Mock
-    private Route route;
+    private Route routeMock;
     @Mock
-    private User user;
+    private User userMock;
     @Mock
     List<Assignment> assignments;
 
     @Test
     public void shouldAssignBusToRoute() {
-        when(busRepository.read(ID)).thenReturn(bus);
-        when(routeRepository.read(ID)).thenReturn(route);
+        when(busRepositoryMock.read(ID)).thenReturn(busMock);
+        when(routeRepositoryMock.read(ID)).thenReturn(routeMock);
         Assignment assignment = new Assignment();
         assignment.setAcceptedByDriver(false);
         assignment.setStartDate(now().toLocalDate());
         assignment.setCreationTime(now());
-        assignment.setBus(bus);
-        assignment.setRoute(route);
+        assignment.setBus(busMock);
+        assignment.setRoute(routeMock);
 
         defaultAssignmentService.assignBusToRoute(ID, ID);
 
-        verify(assignmentRepository).create(assignment);
+        verify(assignmentRepositoryMock).create(assignment);
     }
 
     @Test
     public void shouldAssignDriverToBus() {
-        when(assignmentRepository.read(ID)).thenReturn(assignment);
-        when(userRepository.read(ID)).thenReturn(user);
+        when(assignmentRepositoryMock.read(ID)).thenReturn(assignmentMock);
+        when(userRepositoryMock.read(ID)).thenReturn(userMock);
 
         defaultAssignmentService.assignDriverToBus(ID, ID);
 
-        verify(assignment).setDriver(user);
-        verify(assignmentRepository).update(assignment);
+        verify(assignmentMock).setDriver(userMock);
+        verify(assignmentRepositoryMock).update(assignmentMock);
     }
     @Test
     public void shouldDeleteAssignmentFromRoute() {
         defaultAssignmentService.deleteAssignmentFromRoute(ID);
 
-        verify(assignmentRepository).delete(ID);
+        verify(assignmentRepositoryMock).delete(ID);
     }
 
     @Test
     public void shouldAcceptAssignmentByUser() {
-        when(user.getAssignment()).thenReturn(assignment);
+        when(userMock.getAssignment()).thenReturn(assignmentMock);
 
-        defaultAssignmentService.acceptAssignmentByUser(user);
+        defaultAssignmentService.acceptAssignmentByUser(userMock);
 
-        verify(assignment).setAcceptedByDriver(ACCEPT_BY_DRIVER_TRUE);
-        verify(assignmentRepository).update(assignment);
+        verify(assignmentMock).setAcceptedByDriver(ACCEPT_BY_DRIVER_TRUE);
+        verify(assignmentRepositoryMock).update(assignmentMock);
     }
 
     @Test
     public void shouldDeclineUserAssignment() {
-        when(user.getAssignment()).thenReturn(assignment);
+        when(userMock.getAssignment()).thenReturn(assignmentMock);
 
-        defaultAssignmentService.declineUserAssignment(user);
+        defaultAssignmentService.declineUserAssignment(userMock);
 
-        verify(assignment).setDriver(null);
-        verify(assignment).setAcceptedByDriver(ACCEPT_BY_DRIVER_FALSE);
-        verify(user).setAssignment(null);
-        verify(assignmentRepository).update(assignment);
+        verify(assignmentMock).setDriver(null);
+        verify(assignmentMock).setAcceptedByDriver(ACCEPT_BY_DRIVER_FALSE);
+        verify(userMock).setAssignment(null);
+        verify(assignmentRepositoryMock).update(assignmentMock);
     }
 
     @Test
     public void shouldReturnAssignmentById() {
-        when(assignmentRepository.read(ID)).thenReturn(assignment);
-        when(assignment.getRoute()).thenReturn(route);
-        when(route.getAssignments()).thenReturn(emptyList());
+        when(assignmentRepositoryMock.read(ID)).thenReturn(assignmentMock);
+        when(assignmentMock.getRoute()).thenReturn(routeMock);
+        when(routeMock.getAssignments()).thenReturn(emptyList());
 
         Assignment resultAssignment = defaultAssignmentService.getAssignmentById(ID);
 
-        assertEquals(assignment, resultAssignment);
+        assertEquals(assignmentMock, resultAssignment);
     }
 }

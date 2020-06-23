@@ -20,6 +20,14 @@ import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.StringUtils.isEmpty;
 
+/**
+ * Default implementation of UserService, interacts with user layer,
+ * work with password encoder and assignment repository
+ * @see UserService
+ * @see UserRepository
+ * @see PasswordEncoder
+ * @see AssignmentRepository
+ */
 @Service
 public class DefaultUserService implements UserService {
 

@@ -14,6 +14,11 @@ import static java.lang.Integer.parseInt;
 import static java.time.LocalDateTime.now;
 import static org.springframework.util.StringUtils.isEmpty;
 
+/**
+ * Default implementation of RouteService, interacts with route layer.
+ * @see RouteService
+ * @see RouteRepository
+ */
 @Service
 public class DefaultRouteService implements RouteService {
 

@@ -12,6 +12,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Web controller for handling requests related with bus
+ * @see BusService
+ */
 @Controller
 @RequestMapping(value = "/bus")
 public class BusController {

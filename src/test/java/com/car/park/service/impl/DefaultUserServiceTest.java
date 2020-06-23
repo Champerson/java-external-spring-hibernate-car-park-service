@@ -38,60 +38,56 @@ public class DefaultUserServiceTest {
     @InjectMocks
     private DefaultUserService defaultUserService;
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepositoryMock;
     @Mock
-    private AssignmentRepository assignmentRepository;
+    private AssignmentRepository assignmentRepositoryMock;
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoderMock;
 
     @Mock
-    private User user;
+    private User userMock;
     @Mock
-    private UserDto userDto;
+    private UserDto userDtoMock;
     @Mock
-    private List<User> users;
+    private List<User> usersMock;
 
     @Test
     public void shouldRegisterNewUser() {
-        when(user.getPassword()).thenReturn(USER_PASSWORD);
-        when(passwordEncoder.encode(USER_PASSWORD)).thenReturn(USER_PASSWORD_ENCODED);
+        defaultUserService.registerNewUser(userDtoMock);
 
-        defaultUserService.registerNewUser(userDto);
-
-        verify(user).setPassword(USER_PASSWORD_ENCODED);
-        verify(user).setAccessRole(ROLE_DRIVER);
-        verify(user).setCreationTime(any());
-        verify(userRepository).create(user);
+        verify(userRepositoryMock).create(any(User.class));
     }
 
     @Test
     public void shouldDeleteUserAndAssignmentWhenAssignmentNotNull() {
         Assignment userAssignment = mock(Assignment.class);
-        when(assignmentRepository.readByDriverId(USER_ID)).thenReturn(userAssignment);
+        when(assignmentRepositoryMock.readByDriverId(USER_ID)).thenReturn(userAssignment);
         when(userAssignment.getId()).thenReturn(ASSIGNMENT_ID);
 
         defaultUserService.deleteUser(USER_ID);
 
-        verify(assignmentRepository).delete(userAssignment.getId());
-        verify(userRepository).delete(USER_ID);
+        verify(assignmentRepositoryMock).delete(userAssignment.getId());
+        verify(userRepositoryMock).delete(USER_ID);
     }
 
     @Test
     public void shouldDeleteUserWithoutAssignmentWhenAssignmentIsNull() {
         defaultUserService.deleteUser(USER_ID);
 
-        verify(userRepository).delete(USER_ID);
+        verify(userRepositoryMock).delete(USER_ID);
     }
 
     @Test
     public void shouldUpdateUser() {
         User originalUser = mock(User.class);
-        when(user.getId()).thenReturn(USER_ID);
-        when(userRepository.read(USER_ID)).thenReturn(originalUser);
-        when(user.getAge()).thenReturn(AGE);
-        when(user.getEmail()).thenReturn(EMAIL);
-        when(user.getName()).thenReturn(NAME);
-        when(user.getPhone()).thenReturn(PHONE);
+        UserDto userDto = new UserDto();
+        userDto.setId(USER_ID);
+        userDto.setAge(String.valueOf(AGE));
+        userDto.setName(NAME);
+        userDto.setEmail(EMAIL);
+        userDto.setPhone(PHONE);
+
+        when(userRepositoryMock.read(USER_ID)).thenReturn(originalUser);
 
         defaultUserService.updateUser(userDto);
 
@@ -99,37 +95,37 @@ public class DefaultUserServiceTest {
         verify(originalUser).setEmail(EMAIL);
         verify(originalUser).setName(NAME);
         verify(originalUser).setPhone(PHONE);
-        verify(userRepository).update(originalUser);
+        verify(userRepositoryMock).update(originalUser);
     }
 
     @Test
     public void shouldUpdateUserAccessRole() {
-        when(userRepository.read(USER_ID)).thenReturn(user);
+        when(userRepositoryMock.read(USER_ID)).thenReturn(userMock);
 
         User resultUser = defaultUserService.updateUserAccessRole(USER_ID, ROLE_ADMIN);
 
-        verify(user).setAccessRole(ROLE_ADMIN);
-        verify(userRepository).update(user);
+        verify(userMock).setAccessRole(ROLE_ADMIN);
+        verify(userRepositoryMock).update(userMock);
 
-        assertEquals(user, resultUser);
+        assertEquals(userMock, resultUser);
     }
 
     @Test
     public void shouldReturnUserByLogin() {
-        when(userRepository.read(LOGIN)).thenReturn(user);
+        when(userRepositoryMock.read(LOGIN)).thenReturn(userMock);
 
         User resultUser = defaultUserService.getUserByLogin(LOGIN);
 
-        assertEquals(user, resultUser);
+        assertEquals(userMock, resultUser);
     }
 
     @Test
     public void shouldReturnListOfAllUsers() {
-        when(userRepository.readAll()).thenReturn(users);
+        when(userRepositoryMock.readAll()).thenReturn(usersMock);
 
         List<User> resultList = defaultUserService.getAllUsers();
 
-        assertEquals(users, resultList);
+        assertEquals(usersMock, resultList);
     }
 
     @Test
@@ -142,7 +138,7 @@ public class DefaultUserServiceTest {
         allDrivers.add(driverWithAssignment);
         allDrivers.add(driverWithoutAssignment);
 
-        when(userRepository.readAll()).thenReturn(allDrivers);
+        when(userRepositoryMock.readAll()).thenReturn(allDrivers);
         when(driverWithAssignment.getAccessRole()).thenReturn(ROLE_DRIVER);
         when(driverWithoutAssignment.getAccessRole()).thenReturn(ROLE_DRIVER);
         when(driverWithAssignment.getAssignment()).thenReturn(assignment);
@@ -162,7 +158,7 @@ public class DefaultUserServiceTest {
         allDrivers.add(driver);
         allDrivers.add(admin);
 
-        when(userRepository.readAll()).thenReturn(allDrivers);
+        when(userRepositoryMock.readAll()).thenReturn(allDrivers);
         when(admin.getAccessRole()).thenReturn(ROLE_ADMIN);
         when(driver.getAccessRole()).thenReturn(ROLE_DRIVER);
         when(admin.getAssignment()).thenReturn(null);
@@ -175,10 +171,10 @@ public class DefaultUserServiceTest {
 
     @Test
     public void shouldReturnUserById() {
-        when(userRepository.read(USER_ID)).thenReturn(user);
+        when(userRepositoryMock.read(USER_ID)).thenReturn(userMock);
 
         User resultUser = defaultUserService.getUserById(USER_ID);
 
-        assertEquals(user, resultUser);
+        assertEquals(userMock, resultUser);
     }
 }

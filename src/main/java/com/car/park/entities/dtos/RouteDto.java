@@ -5,6 +5,9 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Pattern;
 
+/**
+ * DTO, contains information of route
+ */
 @UniqueRouteNumber(message = "{validation.route.number.exist}")
 public class RouteDto {
 

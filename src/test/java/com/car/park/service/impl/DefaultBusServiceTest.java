@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -22,10 +23,10 @@ import static org.mockito.Mockito.*;
 public class DefaultBusServiceTest {
 
     private static final long BUS_ID = 3;
-    private static final int MILEAGE= 10;
-    private static final int PASSENGER_CAPACITY = 15;
-    private static final String MODEL = "bmw";
     private static final String NUMBER = "AA2354AA";
+    private static final String MODEL = "bmw";
+    private static final String MILEAGE = "10";
+    private static final String PASSENGER_CAPACITY = "15";
     private static final String COLOUR_EN = "colour";
     private static final String COLOUR_UA = "колір";
     private static final String NOTES_EN = "notes";
@@ -34,96 +35,89 @@ public class DefaultBusServiceTest {
     @InjectMocks
     DefaultBusService defaultBusService;
     @Mock
-    private BusRepository busRepository;
+    private BusRepository busRepositoryMock;
     @Mock
-    private AssignmentRepository assignmentRepository;
+    private AssignmentRepository assignmentRepositoryMock;
 
     @Mock
-    Bus bus;
+    Bus busMock;
     @Mock
-    BusDto busDto;
+    BusDto busDtoMock;
 
     @Test
     public void shouldCreateNewBus() {
-        defaultBusService.createNewBus(busDto);
+        defaultBusService.createNewBus(busDtoMock);
 
-        verify(bus).setCreationTime(any());
-        verify(busRepository).create(bus);
+        verify(busRepositoryMock).create(any(Bus.class));
     }
 
     @Test
     public void shouldUpdateBus() {
-        Bus originalBus = mock(Bus.class);
-        when(bus.getId()).thenReturn(BUS_ID);
-        when(busRepository.read(BUS_ID)).thenReturn(originalBus);
-        when(bus.getMileage()).thenReturn(MILEAGE);
-        when(bus.getModel()).thenReturn(MODEL);
-        when(bus.getNumber()).thenReturn(NUMBER);
-        when(bus.getPassengersCapacity()).thenReturn(PASSENGER_CAPACITY);
-        when(bus.getColourEn()).thenReturn(COLOUR_EN);
-        when(bus.getColourUa()).thenReturn(COLOUR_UA);
-        when(bus.getNotesEn()).thenReturn(NOTES_EN);
-        when(bus.getNotesUa()).thenReturn(NOTES_UA);
+        BusDto busDto = new BusDto();
+
+        busDto.setId(BUS_ID);
+        busDto.setNumber(NUMBER);
+        busDto.setMileage(MILEAGE);
+        busDto.setPassengersCapacity(PASSENGER_CAPACITY);
+        busDto.setModel(MODEL);
+        busDto.setColourEn(COLOUR_EN);
+        busDto.setColourUa(COLOUR_UA);
+        busDto.setNotesEn(NOTES_EN);
+        busDto.setNotesUa(NOTES_UA);
+
+        when(busRepositoryMock.read(BUS_ID)).thenReturn(busMock);
 
         defaultBusService.updateBus(busDto);
 
-        verify(originalBus).setMileage(MILEAGE);
-        verify(originalBus).setModel(MODEL);
-        verify(originalBus).setPassengersCapacity(PASSENGER_CAPACITY);
-        verify(originalBus).setNumber(NUMBER);
-        verify(originalBus).setColourEn(COLOUR_EN);
-        verify(originalBus).setColourUa(COLOUR_UA);
-        verify(originalBus).setNotesEn(NOTES_EN);
-        verify(originalBus).setNotesUa(NOTES_UA);
-        verify(busRepository).update(originalBus);
+        verify(busRepositoryMock).update(busMock);
     }
 
     @Test
     public void shouldDeleteBusAndAssignmentWhenAssignmentNotNull() {
         Assignment busAssignment = mock(Assignment.class);
-        when(busRepository.read(BUS_ID)).thenReturn(bus);
-        when(bus.getAssignment()).thenReturn(busAssignment);
+        when(busRepositoryMock.read(BUS_ID)).thenReturn(busMock);
+        when(busMock.getAssignment()).thenReturn(busAssignment);
 
         defaultBusService.deleteBus(BUS_ID);
 
-        verify(assignmentRepository).delete(busAssignment.getId());
-        verify(busRepository).delete(BUS_ID);
+        verify(assignmentRepositoryMock).delete(busAssignment.getId());
+        verify(busRepositoryMock).delete(BUS_ID);
     }
 
     @Test
     public void shouldDeleteBusWithoutAssignmentWhenAssignmentIsNull() {
-        when(busRepository.read(BUS_ID)).thenReturn(bus);
-        when(bus.getAssignment()).thenReturn(null);
+        when(busRepositoryMock.read(BUS_ID)).thenReturn(busMock);
+        when(busMock.getAssignment()).thenReturn(null);
 
         defaultBusService.deleteBus(BUS_ID);
 
-        verify(busRepository).delete(BUS_ID);
+        verify(busRepositoryMock).delete(BUS_ID);
     }
 
     @Test
     public void shouldReturnBusById() {
-        when(busRepository.read(BUS_ID)).thenReturn(bus);
+        when(busRepositoryMock.read(BUS_ID)).thenReturn(busMock);
 
         Bus resultBus = defaultBusService.getBusById(BUS_ID);
 
-        assertEquals(bus, resultBus);
+        assertEquals(busMock, resultBus);
     }
 
     @Test
     public void shouldReturnBusByNumber() {
-        when(busRepository.read(NUMBER)).thenReturn(bus);
+        when(busRepositoryMock.read(NUMBER)).thenReturn(busMock);
 
         Bus resultBus = defaultBusService.getBusByNumber(NUMBER);
 
-        assertEquals(bus, resultBus);
+        assertEquals(busMock, resultBus);
     }
 
     @Test
     public void shouldReturnAllBuses() {
         List<Bus> buses = new ArrayList<>();
-        buses.add(bus);
+        buses.add(busMock);
 
-        when(busRepository.readAll()).thenReturn(buses);
+        when(busRepositoryMock.readAll()).thenReturn(buses);
 
         List<Bus> resultBuses = defaultBusService.getAllBuses();
 
@@ -140,7 +134,7 @@ public class DefaultBusServiceTest {
         allBuses.add(busWithAssignment);
         allBuses.add(busWithoutAssignment);
 
-        when(busRepository.readAll()).thenReturn(allBuses);
+        when(busRepositoryMock.readAll()).thenReturn(allBuses);
         when(busWithAssignment.getAssignment()).thenReturn(assignment);
         when(busWithoutAssignment.getAssignment()).thenReturn(null);
 

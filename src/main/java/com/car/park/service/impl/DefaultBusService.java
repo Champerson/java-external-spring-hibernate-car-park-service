@@ -16,6 +16,12 @@ import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.StringUtils.isEmpty;
 
+/**
+ * Default implementation of BusService, interacts with bus layer, work with assignment repository.
+ * @see BusService
+ * @see BusRepository
+ * @see AssignmentRepository
+ */
 @Service
 public class DefaultBusService implements BusService {
 

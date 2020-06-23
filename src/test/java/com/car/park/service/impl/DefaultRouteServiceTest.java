@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class DefaultRouteServiceTest {
 
     private static final long ROUTE_ID = 2;
-    private static final int LENGTH = 3;
+    private static final String LENGTH = "3";
     private static final String NUMBER = "345";
     private static final String DESCRIPTION_EN = "DESCRIPTION_EN";
     private static final String DESCRIPTION_UA = "DESCRIPTION_UA";
@@ -29,51 +29,48 @@ public class DefaultRouteServiceTest {
     @InjectMocks
     DefaultRouteService defaultRouteService;
     @Mock
-    private RouteRepository routeRepository;
+    private RouteRepository routeRepositoryMock;
 
     @Mock
-    private Route route;
+    private Route routeMock;
     @Mock
-    private RouteDto routeDto;
+    private RouteDto routeDtoMock;
 
     @Test
     public void shouldCreateNewRoute() {
-        defaultRouteService.createNewRoute(routeDto);
+        defaultRouteService.createNewRoute(routeDtoMock);
 
-        verify(route).setCreationTime(any());
-        verify(routeRepository).create(route);
+        verify(routeRepositoryMock).create(any(Route.class));
     }
 
     @Test
     public void shouldUpdateRoute() {
-        Route originalRoute = mock(Route.class);
-        when(route.getId()).thenReturn(ROUTE_ID);
-        when(routeRepository.read(ROUTE_ID)).thenReturn(originalRoute);
-        when(route.getNumber()).thenReturn(NUMBER);
-        when(route.getLength()).thenReturn(LENGTH);
-        when(route.getDescriptionEn()).thenReturn(DESCRIPTION_EN);
-        when(route.getDescriptionUa()).thenReturn(DESCRIPTION_UA);
+        RouteDto routeDto = new RouteDto();
+
+        routeDto.setId(ROUTE_ID);
+        routeDto.setNumber(NUMBER);
+        routeDto.setLength(LENGTH);
+        routeDto.setDescriptionEn(DESCRIPTION_EN);
+        routeDto.setDescriptionUa(DESCRIPTION_UA);
+
+        when(routeRepositoryMock.read(ROUTE_ID)).thenReturn(routeMock);
 
         defaultRouteService.updateRoute(routeDto);
 
-        verify(originalRoute).setNumber(NUMBER);
-        verify(originalRoute).setLength(LENGTH);
-        verify(originalRoute).setDescriptionEn(DESCRIPTION_EN);
-        verify(originalRoute).setDescriptionUa(DESCRIPTION_UA);
-        verify(routeRepository).update(originalRoute);
+        verify(routeRepositoryMock).update(routeMock);
     }
 
     @Test
     public void shouldReturnRouteById() {
         Assignment assignment = mock(Assignment.class);
-        route.setAssignments(new ArrayList<>());
-        route.getAssignments().add(assignment);
+        routeMock.setAssignments(new ArrayList<>());
+        routeMock.getAssignments().add(assignment);
 
-        when(routeRepository.read(ROUTE_ID)).thenReturn(route);
+        when(routeRepositoryMock.read(ROUTE_ID)).thenReturn(routeMock);
 
         Route resultRoute = defaultRouteService.getRouteById(ROUTE_ID);
 
-        assertEquals(route, resultRoute);
+        assertEquals(routeMock, resultRoute);
     }
 
     @Test
@@ -81,20 +78,20 @@ public class DefaultRouteServiceTest {
         List<Assignment> assignments = new ArrayList<>();
         assignments.add(new Assignment());
 
-        when(routeRepository.read(NUMBER)).thenReturn(route);
-        when(route.getAssignments()).thenReturn(assignments);
+        when(routeRepositoryMock.read(NUMBER)).thenReturn(routeMock);
+        when(routeMock.getAssignments()).thenReturn(assignments);
 
         Route resultRoute = defaultRouteService.getRouteByNumber(NUMBER);
 
-        assertEquals(route, resultRoute);
+        assertEquals(routeMock, resultRoute);
     }
 
     @Test
     public void shouldReturnAllRoutes() {
         List<Route> routes = new ArrayList<>();
-        routes.add(route);
+        routes.add(routeMock);
 
-        when(routeRepository.readAll()).thenReturn(routes);
+        when(routeRepositoryMock.readAll()).thenReturn(routes);
 
         List<Route> resultRoutes = defaultRouteService.getAllRoutes();
 
@@ -105,6 +102,6 @@ public class DefaultRouteServiceTest {
     public void shouldDeleteRouteById() {
         defaultRouteService.deleteRoute(ROUTE_ID);
 
-        verify(routeRepository).delete(ROUTE_ID);
+        verify(routeRepositoryMock).delete(ROUTE_ID);
     }
 }

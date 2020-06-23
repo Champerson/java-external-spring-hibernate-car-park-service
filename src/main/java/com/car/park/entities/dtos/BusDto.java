@@ -5,6 +5,9 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Pattern;
 
+/**
+ * DTO, contains information of bus
+ */
 @UniqueBusNumber(message = "{validation.bus.number.exist}")
 public class BusDto {
 

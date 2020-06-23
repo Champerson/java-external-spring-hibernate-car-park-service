@@ -15,6 +15,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 
+/**
+ * Web controller for handling requests related with route
+ * @see RouteService
+ * @see AssignmentService
+ */
 @Controller
 @RequestMapping(value = "/route")
 public class RouteController {

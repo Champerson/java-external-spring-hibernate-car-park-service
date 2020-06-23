@@ -2,6 +2,7 @@ package com.car.park.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "buses")
@@ -132,5 +133,28 @@ public class Bus {
 
     public void setAssignment(Assignment assignment) {
         this.assignment = assignment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bus bus = (Bus) o;
+        return Objects.equals(id, bus.id) &&
+                Objects.equals(number, bus.number) &&
+                Objects.equals(model, bus.model) &&
+                Objects.equals(passengersCapacity, bus.passengersCapacity) &&
+                Objects.equals(mileage, bus.mileage) &&
+                Objects.equals(colourEn, bus.colourEn) &&
+                Objects.equals(colourUa, bus.colourUa) &&
+                Objects.equals(notesEn, bus.notesEn) &&
+                Objects.equals(notesUa, bus.notesUa) &&
+                Objects.equals(creationTime, bus.creationTime) &&
+                Objects.equals(assignment, bus.assignment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, number, model, passengersCapacity, mileage, colourEn, colourUa, notesEn, notesUa, creationTime, assignment);
     }
 }

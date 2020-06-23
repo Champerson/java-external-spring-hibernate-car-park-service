@@ -19,6 +19,11 @@ import java.security.Principal;
 import static com.car.park.entities.UserRole.ROLE_ADMIN;
 import static com.car.park.entities.UserRole.ROLE_DRIVER;
 
+/**
+ * Web controller for handling requests related with user
+ * @see UserService
+ * @see AssignmentService
+ */
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {

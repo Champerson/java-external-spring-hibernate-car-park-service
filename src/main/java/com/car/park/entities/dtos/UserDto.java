@@ -7,6 +7,12 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Pattern;
 
+/**
+ * DTO, contains information of user, and splits it on different forms
+ * @see ValidationCreate
+ * @see ValidationUpdate
+ * @see ValidationPasswordUpdate
+ */
 @UniqueLogin(message = "{validation.user.login.exist}", groups = {UserDto.ValidationCreate.class})
 @PasswordMatch(message = "{validation.user.password.old.incorrect}", groups = {UserDto.ValidationPasswordUpdate.class})
 public class UserDto {
@@ -107,12 +113,18 @@ public class UserDto {
         this.age = age;
     }
 
-    public interface ValidationCreate {
-    }
+    /**
+     * Interface to group fields for validation for user creation form
+     */
+    public interface ValidationCreate {}
 
-    public interface ValidationUpdate {
-    }
+    /**
+     * Interface to group fields for validation for user update form
+     */
+    public interface ValidationUpdate {}
 
-    public interface ValidationPasswordUpdate {
-    }
+    /**
+     * Interface to group fields for validation for user update password form
+     */
+    public interface ValidationPasswordUpdate {}
 }
