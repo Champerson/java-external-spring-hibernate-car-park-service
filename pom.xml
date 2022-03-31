@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.springframework.version>5.2.6.RELEASE</org.springframework.version>
+        <org.springframework.version>5.3.18</org.springframework.version>
         <org.springframework.security.version>4.0.4.RELEASE</org.springframework.security.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
